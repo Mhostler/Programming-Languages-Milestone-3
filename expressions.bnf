@@ -1,0 +1,75 @@
+USE_LR_PARSER
+
+FirstMilestone
+
+(* ======================================================================================================= *)
+<FirstMilestone>                ::= <Block>                                                                 .
+
+<Block>                     	::= "{" <StatementList> "}"                                                 .
+ 
+<StatementList>         	::= <Epsilon>  | <Statement> ";" <StatementList>                            .
+ 
+<Statement>                     ::= <Skip>
+                                        | <Declaration>
+                                        | <Assignment>
+                                        | <Conditional>
+                                        | <Iterator>
+                                        | <PrintData>
+                                        | <Block>                                                           .
+ 
+<Skip>                          ::= <Epsilon>                                                               .
+ 
+<Epsilon> ::= .
+
+<Declaration>             	::= "int" id   | "bool" id                                                  .
+ 
+<Assignment>                    ::= id "=" <Expression>
+                                        | <PrePost>                                                         .
+ 
+<Conditional>            	::= "if" <Expression> "then" <Block>
+                                        | "if" <Expression> "then" <Block> "else" <Block>                   .
+ 
+<Iterator>                   	::= <WhileLoop> | <ForLoop>                                                 .
+ 
+<WhileLoop>             	::= "while" "(" <Expression> ")" <Block>                                    .
+ 
+<ForLoop>                	::= "for" "(" <Assignment> ";" <Expression> ";" <Assignment> ")"  <Block>   .
+ 
+<PrintData>                	::=  "print"  "(" <Expression> ")"                                          .
+
+<Expression>             	::= <Booleanand> | <Expression> "||" <Booleanand>                           .
+      	                                
+<Booleanand>                    ::= <RelationalExpression>
+                                        | <Booleanand> "&&" <RelationalExpression>                          .
+ 
+<RelationalExpression>          ::= <Expr> 
+                                        | <RelationalExpression>  "<="  <Expr>
+                                  	| <RelationalExpression> "<" <Expr>
+                                        | <RelationalExpression> ">=" <Expr>
+                                        | <RelationalExpression> ">" <Expr>
+                                        | <RelationalExpression> "==" <Expr>
+                                        | <RelationalExpression> "!=" <Expr>                                .
+                                                      	
+<Expr>                      	::= <Term> 
+                                        | <Expr> "+" <Term>
+                                        | <Expr> "-"  <Term>                                                .
+
+<Term>                      	::= <Unary>
+                                        | <Term> "*" <Unary>
+                                        | <Term> "div" <Unary>
+                                        | <Term> "mod" <Unary>                                              .
+ 
+<Unary>                     	::= "-" <Unary>  |  <Carrot>                                                .
+ 
+<Carrot>                    	::= <Factor> "**" <Carrot> | <Factor>                                       .
+ 
+<Factor>                    	::=  <PrePost>
+                                  	| "not" "(" <Expression> ")"          	
+                                  	| "abs" "(" <Expression> ")"  
+                                        | "(" <Expression> ")"
+                                        | integer | Boolean | id                                            .
+
+<PrePost>                  	::=   "++" id
+                                  	| "--"  id
+                                  	| id "++"
+                                        | id "--"                                                           .
